@@ -1,0 +1,1638 @@
+/* ============================================================
+   ALEJANDRO DORADO — PORTFOLIO
+   Editorial Dark Warm. Single CSS file, sectioned.
+
+   ANIMATION CONTRACT
+   Everything on this page is VISIBLE BY DEFAULT with no JS.
+   Entrance animations are scoped under `html.js-reveal`, a class the
+   inline <head> script adds before first paint — and only when JS is
+   available AND the visitor has not requested reduced motion.
+   Never put an `opacity: 0` starting state outside a `.js-reveal` scope.
+   ============================================================ */
+
+/* =============================================================
+   1. Tokens
+   ============================================================= */
+:root {
+  /* --- palette --- */
+  --bg:           #0a0a0a;
+  --bg-2:         #111111;
+  --bg-3:         #161616;
+  --surface:      #1a1a1a;
+  --surface-2:    #222222;
+  --cream:        #f0ead6;
+  --cream-2:      #d6cfb8;
+  --cream-3:      #9c947d;
+  --mute:         #5e5849;
+  --amber:        #d4a437;
+  --amber-2:      #b8862a;
+  --amber-glow:   rgba(212, 164, 55, 0.22);
+  --line:         rgba(240, 234, 214, 0.10);
+  --line-strong:  rgba(240, 234, 214, 0.22);
+  --grid-line:    rgba(240, 234, 214, 0.045);
+
+  /* --- type --- Newsreader for headlines (modern publication serif),
+       Inter for body, JetBrains Mono for labels --- */
+  --serif:  "Newsreader", "Times New Roman", Georgia, serif;
+  --sans:   "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono:   "JetBrains Mono", ui-monospace, "SF Mono", Consolas, Monaco, monospace;
+
+  /* --- easing --- */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-soft:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* --- layout --- */
+  --max:        1320px;
+  --gutter:     clamp(1.25rem, 4vw, 3rem);
+  --section-y:  clamp(3rem, 5vw, 4rem);
+  --nav-h:      72px;
+  --card-r:     20px;
+
+  color-scheme: dark;
+}
+
+/* =============================================================
+   2. Reset & base
+   ============================================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 2;
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
+}
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  overscroll-behavior-y: none;
+  min-height: 100vh;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; }
+a { color: inherit; text-decoration: none; }
+p { text-wrap: pretty; }
+h1, h2, h3, h4, h5 {
+  text-wrap: balance;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+ul, ol { list-style: none; }
+::selection { background: var(--amber); color: var(--bg); }
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* =============================================================
+   3. Utilities
+   ============================================================= */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  padding: 0.6rem 1rem;
+  background: var(--cream);
+  color: var(--bg);
+  z-index: 99999;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+.skip-link:focus { top: 1rem; }
+
+.mono {
+  font-family: var(--mono);
+  font-weight: 400;
+  letter-spacing: 0;
+  font-feature-settings: "ss01", "ss02";
+}
+.amber { color: var(--amber); }
+
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--amber);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--amber-glow);
+  animation: dotPulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50%      { opacity: 1; transform: scale(1.18); }
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--cream-3);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* =============================================================
+   3b. Background grid — persistent structural columns (A1)
+   Static, non-interactive, aligned to the same --max/--gutter
+   module every section already uses for its own content edges.
+   Painted as a full-viewport overlay so it never disappears behind
+   an opaque section background. No JS, no scroll/resize listeners.
+   ============================================================= */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.bg-grid-track {
+  width: min(calc(100% - var(--gutter) * 2), calc(var(--max) - var(--gutter) * 2));
+  height: 100%;
+  margin-inline: auto;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--grid-line) 0,
+    var(--grid-line) 1px,
+    transparent 1px,
+    transparent calc(100% / 6)
+  );
+}
+@media (max-width: 719px) {
+  .bg-grid-track {
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--grid-line) 0,
+      var(--grid-line) 1px,
+      transparent 1px,
+      transparent calc(100% / 3)
+    );
+    opacity: 0.7;
+  }
+}
+
+/* =============================================================
+   4. Reveal (generic)
+   Default state is VISIBLE. The hidden starting state exists only
+   inside the `.js-reveal` scope, so a failed/slow script or a
+   reduced-motion preference can never blank the page.
+   ============================================================= */
+.reveal { opacity: 1; transform: none; }
+
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.5s var(--ease-out),
+    transform 0.5s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js-reveal .reveal.is-visible { opacity: 1; transform: none; }
+
+/* =============================================================
+   4.5 Word reveal — short staggered entrance on display headings.
+   Whole run completes in well under 500ms. Same visible-by-default
+   contract: the word spans only exist when JS ran, and they only
+   start hidden inside `.js-reveal`.
+   ============================================================= */
+/* Inline, never inline-block: an atomic inline box would add line-break
+   opportunities on both sides and orphan punctuation onto its own line.
+   The entrance is therefore a pure opacity fade, which is layout-free. */
+.blur-word, .blur-punct { display: inline; }
+.blur-word em { font-style: italic; }
+
+.js-reveal .blur-word {
+  opacity: 0;
+  transition: opacity 0.26s var(--ease-out);
+  /* capped stagger: never more than ~200ms of lead-in */
+  transition-delay: calc(min(var(--word-i, 0), 22) * 9ms);
+}
+.js-reveal [data-blur-reveal].is-revealed .blur-word { opacity: 1; }
+
+/* =============================================================
+   4.5b Line-mask reveal — editorial upgrade reserved for two rare,
+   high-weight headlines (about-lede, contact-title). Each detected
+   line rises from behind a clip instead of cascading word by word.
+   Same visible-by-default contract as .blur-word above.
+   ============================================================= */
+.mask-line { display: block; overflow: hidden; }
+.mask-line-inner { display: block; }
+
+.js-reveal .mask-line-inner {
+  transform: translateY(115%);
+  transition: transform 0.7s var(--ease-out);
+  transition-delay: calc(var(--line-i, 0) * 90ms);
+}
+.js-reveal [data-mask-reveal].is-revealed .mask-line-inner { transform: translateY(0); }
+
+/* =============================================================
+   4.6 Reading progress bar (fixed top)
+   ============================================================= */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 101;
+  pointer-events: none;
+  background: transparent;
+}
+.progress-bar-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--amber-2), var(--amber));
+  box-shadow: 0 0 10px var(--amber-glow);
+  transform-origin: left;
+  will-change: width;
+}
+
+/* =============================================================
+   5. Nav
+   ============================================================= */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding: 1.1rem var(--gutter);
+  height: var(--nav-h);
+  background: rgba(10, 10, 10, 0);
+  border-bottom: 1px solid transparent;
+  transition: background 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
+}
+.nav.is-scrolled {
+  background: rgba(10, 10, 10, 0.92);
+  border-bottom-color: var(--line);
+}
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+}
+/* Nav monogram — wider pill badge that respects the 2:1 aspect of the
+   "AD" gold logo (the letters need horizontal room or they get cropped). */
+.nav-monogram {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 38px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
+  border: 1px solid transparent;
+  transition:
+    border-color 0.35s var(--ease-out),
+    transform 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
+}
+.nav-monogram img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.nav-monogram-fallback {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--amber);
+  letter-spacing: 0.02em;
+  padding: 0 0.4rem;
+}
+.nav-brand:hover .nav-monogram {
+  border-color: var(--amber);
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px rgba(212, 164, 55, 0.18);
+}
+.nav-current {
+  color: var(--cream-3);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+.nav-links { display: none; justify-content: center; gap: clamp(1rem, 2.4vw, 2.2rem); }
+.nav-links a {
+  position: relative;
+  font-size: 0.875rem;
+  color: var(--cream-2);
+  padding: 0.4rem 0;
+  transition: color 0.3s var(--ease-out);
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s var(--ease-out);
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav-links a.is-active { color: var(--amber); }
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  justify-self: end;
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+  will-change: transform;
+}
+.nav-cta:hover { border-color: var(--amber); color: var(--amber); background: rgba(212, 164, 55, 0.06); }
+.nav-cta-dot {
+  width: 6px; height: 6px;
+  background: var(--amber);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--amber-glow);
+}
+@media (min-width: 960px) { .nav-links { display: flex; } }
+
+/* =============================================================
+   5.5 Mobile navigation (hamburger + drawer)
+   ============================================================= */
+.nav-burger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  padding: 0 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease-out);
+}
+.nav-burger-line {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--cream);
+  transition: transform 0.4s var(--ease-out), opacity 0.3s var(--ease-out);
+  transform-origin: center;
+}
+.nav-burger:hover { border-color: var(--amber); }
+.nav-burger:hover .nav-burger-line { background: var(--amber); }
+
+/* hamburger → X when open */
+.nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(2) {
+  opacity: 0;
+}
+.nav-burger[aria-expanded="true"] .nav-burger-line:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  /* Fully opaque: at 0.97 the hero headline (large cream type with a gold
+     glow) read straight through the open drawer on mobile. */
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--nav-h) + 2rem) var(--gutter) 2rem;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.35s var(--ease-out), transform 0.4s var(--ease-out);
+  overflow-y: auto;
+}
+.mobile-nav.is-open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.mobile-nav-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex-grow: 1;
+  border-top: 1px solid var(--line);
+}
+.mobile-nav-link {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 6vw, 2.4rem);
+  font-weight: 300;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: color 0.3s var(--ease-out), padding-left 0.4s var(--ease-out);
+}
+.mobile-nav-link .mono {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--cream-3);
+  letter-spacing: 0.04em;
+  align-self: center;
+}
+/* The drawer is closed by default, so a hidden start here can never
+   trap content — but keep it inside the animation gate anyway. */
+.js-reveal .mobile-nav-link {
+  opacity: 0;
+  transform: translateY(8px);
+  transition-property: opacity, transform, color, padding-left;
+}
+.js-reveal .mobile-nav.is-open .mobile-nav-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+.js-reveal .mobile-nav.is-open .mobile-nav-link:nth-child(1) { transition-delay: 0.04s; }
+.js-reveal .mobile-nav.is-open .mobile-nav-link:nth-child(2) { transition-delay: 0.07s; }
+.js-reveal .mobile-nav.is-open .mobile-nav-link:nth-child(3) { transition-delay: 0.10s; }
+.js-reveal .mobile-nav.is-open .mobile-nav-link:nth-child(4) { transition-delay: 0.13s; }
+.js-reveal .mobile-nav.is-open .mobile-nav-link:nth-child(5) { transition-delay: 0.16s; }
+.js-reveal .mobile-nav.is-open .mobile-nav-link:nth-child(6) { transition-delay: 0.19s; }
+.mobile-nav-link:hover,
+.mobile-nav-link:focus-visible {
+  color: var(--amber);
+  padding-left: 0.4rem;
+}
+.mobile-nav-link:hover .mono,
+.mobile-nav-link:focus-visible .mono {
+  color: var(--amber);
+}
+
+.mobile-nav-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-top: 2rem;
+  margin-top: auto;
+}
+.mobile-nav-cta {
+  display: block;
+  padding: 1.1rem 1.4rem;
+  background: var(--amber);
+  color: var(--bg);
+  border-radius: 999px;
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.35s var(--ease-out);
+}
+.mobile-nav-cta:hover { background: var(--cream); }
+.mobile-nav-secondary {
+  display: block;
+  padding: 0.95rem 1.4rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--cream-2);
+  transition: border-color 0.35s, color 0.35s;
+}
+.mobile-nav-secondary:hover { border-color: var(--amber); color: var(--amber); }
+
+/* Hide hamburger on desktop, hide drawer on desktop */
+@media (min-width: 960px) {
+  .nav-burger { display: none; }
+  .mobile-nav { display: none; }
+}
+
+/* When mobile nav is open, lock body scroll */
+body.has-mobile-nav-open { overflow: hidden; }
+
+/* =============================================================
+   6. Buttons (pill arrow style)
+   ============================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.95rem 1.5rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.005em;
+  border: 1px solid transparent;
+  transition:
+    background 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out),
+    color 0.4s var(--ease-out),
+    transform 0.4s var(--ease-out);
+  will-change: transform;
+}
+.btn-pill { border-radius: 999px; padding: 0.95rem 1.6rem; }
+.btn-primary { background: var(--amber); color: var(--bg); border-color: var(--amber); }
+.btn-primary:hover { background: var(--cream); border-color: var(--cream); color: var(--bg); }
+.btn-ghost { color: var(--cream); border-color: var(--line-strong); background: transparent; }
+.btn-ghost:hover { border-color: var(--cream); background: rgba(255, 255, 255, 0.03); }
+
+.btn-arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.18);
+  transition: transform 0.45s var(--ease-out), background 0.45s var(--ease-out);
+}
+.btn-primary .btn-arrow { background: rgba(10, 10, 10, 0.22); }
+.btn-ghost .btn-arrow   { background: transparent; border: 1px solid var(--line-strong); }
+.btn:hover .btn-arrow {
+  transform: rotate(45deg);
+}
+.btn-ghost:hover .btn-arrow { border-color: var(--cream); }
+
+/* =============================================================
+   7. Hero
+   ============================================================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--nav-h) + 2.5rem) var(--gutter) clamp(3rem, 6vw, 5.5rem);
+  overflow: hidden;
+  isolation: isolate;
+  /* paint isolation — keeps hero work out of the rest of the page's compositor */
+  contain: layout paint;
+}
+.hero-grid {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max);
+  width: 100%;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: start;
+}
+/* hero atmosphere — STATIC. No animation, no filter blur, no SVG noise. */
+.hero-atmos {
+  position: absolute;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(50% 45% at 22% 65%, rgba(212, 164, 55, 0.16) 0%, transparent 65%),
+    radial-gradient(38% 35% at 78% 25%, rgba(184, 134, 42, 0.10) 0%, transparent 65%),
+    radial-gradient(55% 55% at 65% 90%, rgba(212, 164, 55, 0.06) 0%, transparent 70%);
+  contain: paint;
+}
+
+/* hero text column */
+.hero-text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  max-width: 680px;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(2.5rem, 5.2vw, 4.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.028em;
+  font-variation-settings: "opsz" 144, "SOFT" 60;
+  color: var(--cream);
+  margin: 0.4rem 0 0;
+  text-wrap: balance;
+  max-width: 22ch;
+  /* Defaults are the visible state. JS only decorates these on scroll. */
+  transform-origin: left center;
+  transform: scale(var(--hero-scale, 1));
+  opacity: var(--hero-opacity, 1);
+  transition: transform 0.1s linear, opacity 0.1s linear;
+  will-change: transform, opacity;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--amber);
+  font-variation-settings: "opsz" 144, "SOFT" 100;
+  text-shadow:
+    0 1px 0 rgba(212, 164, 55, 0.18),
+    0 2px 0 rgba(212, 164, 55, 0.14),
+    0 4px 0 rgba(212, 164, 55, 0.10),
+    0 12px 36px rgba(212, 164, 55, 0.22);
+}
+.hero-meta {
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+  line-height: 1.55;
+  color: var(--cream-2);
+  max-width: 54ch;
+}
+.hero-meta strong { color: var(--cream); font-weight: 500; }
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+}
+.hero-facts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.8rem;
+  margin-top: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.78rem;
+}
+.hero-fact {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 0.7rem;
+  align-items: baseline;
+}
+.hero-fact dt {
+  color: var(--cream-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.68rem;
+}
+.hero-fact dd { color: var(--cream-2); }
+
+/* hero avatar column */
+.hero-avatar-col {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.avatar-sticky {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 380px;
+}
+.avatar {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  contain: layout paint;
+}
+.avatar-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-3);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.04) inset,
+    0 30px 80px -20px rgba(0, 0, 0, 0.6),
+    0 0 0 1px var(--line);
+}
+/* A2 reveal — the avatar is always in the initial viewport, so it
+   never "enters" via scroll; a load-time class (html.is-ready, set
+   at the end of boot() in main.js) is the correct trigger. Gated
+   under .js-reveal so a no-JS or reduced-motion visit never clips it. */
+.js-reveal .avatar-face {
+  clip-path: inset(0 0 100% 0 round 50%);
+  transition: clip-path 900ms var(--ease-out) 100ms;
+}
+html.js-reveal.is-ready .avatar-face {
+  clip-path: inset(0 0 0% 0 round 50%);
+}
+.avatar-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  filter: saturate(1.05) contrast(1.05);
+}
+/* A3 parallax scale target (JS, scroll-linked) — never on .avatar-face
+   itself, which owns the A2 clip-path reveal transition. */
+@media (min-width: 720px) and (prefers-reduced-motion: no-preference) {
+  .avatar-face img { will-change: transform; }
+}
+.avatar-tint {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 50% at 25% 95%, rgba(212, 164, 55, 0.12) 0%, transparent 65%),
+    linear-gradient(200deg, rgba(10, 10, 10, 0.0) 40%, rgba(10, 10, 10, 0.35) 100%);
+  pointer-events: none;
+}
+.avatar-glow {
+  position: absolute;
+  inset: -6%;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, var(--amber-glow), transparent 70%);
+  z-index: -1;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* placeholder for missing photo */
+.photo-missing {
+  position: relative;
+  background:
+    radial-gradient(60% 50% at 50% 35%, rgba(212, 164, 55, 0.20), transparent 70%),
+    linear-gradient(160deg, var(--bg-2), var(--bg-3));
+}
+.photo-missing::before {
+  content: "AD";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--serif);
+  font-size: clamp(3rem, 12cqi, 8rem);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: -0.04em;
+  color: var(--amber);
+  opacity: 0.85;
+  container-type: inline-size;
+}
+
+@media (min-width: 960px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+  .avatar-sticky {
+    position: sticky;
+    top: calc(var(--nav-h) + 1.5rem);
+    max-width: 100%;
+  }
+}
+
+/* hero scroll cue */
+.hero-scroll-cue {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--cream-3);
+  letter-spacing: 0.15em;
+  text-transform: lowercase;
+  z-index: 3;
+}
+.hero-scroll-line {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(to bottom, var(--cream-3), transparent);
+  position: relative;
+  overflow: hidden;
+}
+.hero-scroll-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--amber), transparent);
+  animation: scrollLine 1.8s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* =============================================================
+   8. Section head
+   ============================================================= */
+.section {
+  position: relative;
+  z-index: 0;
+  padding: var(--section-y) var(--gutter);
+  max-width: var(--max);
+  margin-inline: auto;
+}
+
+/* =============================================================
+   8b. Section watermark — ghost section name (A4)
+   Reuses the existing data-section-label attribute. Sits behind
+   the section's real content (z-index:-1, scoped by the explicit
+   z-index:0 above so it can't escape into a sibling section).
+   One-time reveal on scroll-into-view.
+   ============================================================= */
+.section[data-section-label]::before {
+  content: attr(data-section-label);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(3.5rem, 13vw, 11rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--cream);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.section[data-section-label].is-revealed::before {
+  opacity: 0.05;
+  transform: translateY(0);
+}
+
+.section-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.25rem;
+  align-items: center;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--cream-3);
+}
+.section-num { font-size: 0.85rem; color: var(--amber); letter-spacing: 0.02em; }
+.section-rule { width: 100%; height: 1px; color: var(--line); }
+/* Drawn by default. The draw-in only exists inside the animation gate. */
+.section-rule line { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.js-reveal .section-rule line {
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.9s var(--ease-out) 0.1s;
+}
+.js-reveal .section.is-visible .section-rule line { stroke-dashoffset: 0; }
+.section-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cream-3);
+}
+
+/* =============================================================
+   9. About
+   ============================================================= */
+.about-text-col { display: flex; flex-direction: column; gap: 1.25rem; }
+.about-lede {
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 3vw, 2.05rem);
+  line-height: 1.28;
+  letter-spacing: -0.018em;
+  color: var(--cream);
+  font-weight: 300;
+  font-variation-settings: "opsz" 96, "SOFT" 50;
+  text-wrap: balance;
+  max-width: 36ch;
+}
+.about-lede em { font-style: italic; color: var(--amber); }
+.about-body { font-size: 1rem; line-height: 1.65; color: var(--cream-2); max-width: 62ch; }
+
+/* =============================================================
+   10. Experience (timeline)
+   ============================================================= */
+.timeline { display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 3.5rem); position: relative; }
+.timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  padding-left: 1.75rem;
+  border-left: 1px solid var(--line);
+}
+.timeline-spine { position: absolute; left: -5px; top: 0.4rem; }
+.timeline-dot {
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--cream-3);
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+}
+.timeline-item.is-current .timeline-dot {
+  background: var(--amber);
+  border-color: var(--amber);
+  box-shadow: 0 0 0 6px rgba(212, 164, 55, 0.12);
+  animation: dotPulse 2.4s ease-in-out infinite;
+}
+.timeline-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  color: var(--cream-3);
+  letter-spacing: 0.02em;
+}
+.timeline-loc { color: var(--mute); font-size: 0.72rem; }
+.timeline-body { display: flex; flex-direction: column; gap: 0.8rem; }
+.timeline-role {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 2.6vw, 1.85rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+}
+.timeline-org { font-size: 1rem; color: var(--cream-2); }
+.timeline-desc { font-size: 0.95rem; color: var(--cream-2); line-height: 1.65; max-width: 64ch; }
+.timeline-bullets { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.2rem; }
+.timeline-bullets li {
+  position: relative;
+  padding-left: 1rem;
+  font-size: 0.95rem;
+  color: var(--cream-2);
+  line-height: 1.6;
+  max-width: 66ch;
+}
+.timeline-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.65em;
+  width: 6px; height: 1px;
+  background: var(--cream-3);
+}
+.timeline-bullets strong { color: var(--cream); font-weight: 500; }
+.timeline-stack {
+  font-size: 0.72rem;
+  color: var(--cream-3);
+  letter-spacing: 0.02em;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--line);
+  margin-top: 0.4rem;
+}
+@media (min-width: 960px) {
+  .timeline-item { grid-template-columns: 200px 1fr; gap: 3.5rem; padding-left: 2.5rem; }
+}
+
+/* =============================================================
+   11. Work + project cards
+   ============================================================= */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: linear-gradient(165deg, var(--bg-2) 0%, var(--bg-3) 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--card-r);
+  padding: 1rem 1rem 1.5rem;
+  overflow: hidden;
+  isolation: isolate;
+  transition: border-color 0.4s var(--ease-out), transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+  will-change: transform;
+}
+.project-card:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-6px);
+  box-shadow: 0 30px 80px -25px rgba(212, 164, 55, 0.18);
+}
+
+/* text-first variant — no CSS-art header block, so the inner padding
+   lives on the card itself instead of on every child */
+.project-card-flat {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  gap: 0.9rem;
+}
+.project-card-flat .project-meta,
+.project-card-flat .project-title,
+.project-card-flat .project-desc,
+.project-card-flat .project-tags,
+.project-card-flat .project-foot { padding-inline: 0; }
+.project-card-flat .project-meta { margin-top: 0; }
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  color: var(--cream-3);
+  letter-spacing: 0.04em;
+  padding: 0 0.4rem;
+  margin-top: 0.3rem;
+}
+.project-status { display: inline-flex; align-items: center; gap: 0.4rem; }
+.project-title {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2.4vw, 1.65rem);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  padding: 0 0.4rem;
+}
+.project-desc {
+  font-size: 0.92rem;
+  color: var(--cream-2);
+  line-height: 1.6;
+  padding: 0 0.4rem;
+  max-width: 52ch;
+  flex-grow: 1;
+}
+
+/* Context / Contribution / Result rows on the production case studies */
+.case-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  flex-grow: 1;
+}
+.case-row {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 0.9rem;
+  align-items: baseline;
+}
+.case-row dt {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--amber);
+}
+.case-row dd {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--cream-2);
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.74rem;
+  color: var(--cream-3);
+  padding: 0 0.4rem;
+  margin-top: 0.2rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+.project-tags li {
+  display: inline-flex;
+  align-items: center;
+}
+.project-tags li:not(:last-child)::after {
+  content: "·";
+  color: var(--mute);
+  margin-inline: 0.6em;
+}
+.project-foot {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.2rem 0.4rem 0;
+  font-size: 0.82rem;
+}
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--cream);
+  font-weight: 500;
+  position: relative;
+}
+.project-link-arrow { transition: transform 0.4s var(--ease-out); }
+.project-link:hover { color: var(--amber); }
+.project-link:hover .project-link-arrow { transform: translate(2px, -2px); }
+
+@media (min-width: 720px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1200px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+}
+
+/* focus-dim — hovering one project dims its sibling */
+@supports selector(:has(*)) {
+  .projects-grid:has(.project-card:hover) .project-card:not(:hover) {
+    opacity: 0.52;
+    filter: saturate(0.75);
+  }
+}
+
+/* =============================================================
+   12. Writing (article card list)
+   ============================================================= */
+.articles-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 760px;
+}
+.article-card {
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(165deg, var(--bg-2), var(--bg-3));
+  overflow: hidden;
+  transition: border-color 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+}
+.article-card:hover {
+  border-color: var(--amber);
+  transform: translateY(-2px);
+}
+.article-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.25rem 1.4rem;
+  text-decoration: none;
+  color: inherit;
+}
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.7rem;
+  color: var(--cream-3);
+  letter-spacing: 0.05em;
+}
+.article-num { color: var(--amber); }
+.article-title {
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.018em;
+  color: var(--cream);
+}
+.article-card:hover .article-title { color: var(--amber); }
+.article-excerpt {
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: var(--cream-2);
+  max-width: 64ch;
+}
+.article-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.74rem;
+}
+.article-tags { color: var(--cream-3); }
+.article-cta {
+  color: var(--cream);
+  font-weight: 500;
+}
+.article-card:hover .article-cta { color: var(--amber); }
+
+/* =============================================================
+   13. Skills
+   ============================================================= */
+.stack-groups { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+.stack-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.stack-cat { font-size: 0.75rem; color: var(--amber); letter-spacing: 0.05em; text-transform: uppercase; }
+.stack-tags { display: flex; flex-wrap: wrap; gap: 0.5rem 0.6rem; }
+.stack-tags li {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--cream-2);
+  background: rgba(255, 255, 255, 0.015);
+  transition:
+    border-color 0.35s var(--ease-out),
+    color 0.35s var(--ease-out),
+    background 0.35s var(--ease-out),
+    transform 0.35s var(--ease-out);
+  will-change: transform;
+}
+.stack-tags li:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+  background: rgba(212, 164, 55, 0.05);
+  transform: translateY(-2px);
+}
+@media (min-width: 720px) { .stack-groups { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) {
+  .stack-groups { grid-template-columns: repeat(3, 1fr); gap: 2rem 3rem; }
+  /* three groups, one row — no hairline needed under any of them */
+  .stack-group { border-bottom: 0; padding-bottom: 0; }
+}
+
+/* =============================================================
+   14. Education & languages
+   ============================================================= */
+.edu-list { display: flex; flex-direction: column; gap: 2rem; }
+.edu-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.edu-meta { font-size: 0.78rem; color: var(--cream-3); letter-spacing: 0.02em; }
+.edu-degree {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+}
+.edu-school { font-size: 1rem; color: var(--cream-2); }
+.edu-tags {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  margin: 0.3rem 0;
+  color: var(--cream-2);
+}
+.edu-tags li { display: inline-flex; align-items: center; }
+.edu-tags li:not(:last-child)::after {
+  content: "·";
+  color: var(--mute);
+  margin-inline: 0.6em;
+}
+.edu-courses { font-size: 0.92rem; color: var(--cream-2); line-height: 1.6; max-width: 66ch; }
+
+.certs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding-top: 1.6rem;
+  margin-top: 1.6rem;
+  border-top: 1px solid var(--line);
+}
+.certs-head { font-size: 0.75rem; color: var(--amber); letter-spacing: 0.05em; text-transform: uppercase; }
+.certs-list { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.cert {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-2);
+  transition: border-color 0.35s var(--ease-out), background 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+}
+.cert:hover {
+  border-color: var(--amber);
+  background: var(--bg-3);
+  transform: translateY(-2px);
+}
+.cert-logo {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.5);
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+}
+/* Official brand marks (edX, Meta) sit on a light tile with breathing room */
+.cert-logo-light { background: #fff; }
+.cert-logo-light img {
+  width: 56%;
+  height: 56%;
+  object-fit: contain;
+  display: block;
+}
+.cert:hover .cert-logo {
+  transform: scale(1.06) rotate(-2deg);
+  box-shadow: 0 6px 18px -4px rgba(212, 164, 55, 0.35);
+}
+.cert-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.cert-name {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--cream);
+  line-height: 1.25;
+}
+.cert-issuer { font-size: 0.74rem; color: var(--cream-3); letter-spacing: 0.02em; }
+@media (min-width: 720px) { .certs-list { grid-template-columns: repeat(2, 1fr); } }
+
+/* Languages — three plain lines, folded into Education */
+.langs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-top: 1.6rem;
+  margin-top: 1.6rem;
+  border-top: 1px solid var(--line);
+}
+.langs-plain { display: flex; flex-direction: column; max-width: 780px; }
+.langs-plain li {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.langs-plain li:last-child { border-bottom: 0; padding-bottom: 0; }
+.lang-plain-name {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: -0.015em;
+}
+.lang-plain-level {
+  font-size: 0.78rem;
+  color: var(--cream-3);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+/* =============================================================
+   15. Contact
+   ============================================================= */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+.contact-photo-wrap {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-width: 360px;
+  background: transparent;
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--ease-out), filter 0.6s var(--ease-out);
+  -webkit-mask-image: radial-gradient(ellipse 80% 90% at center, #000 45%, rgba(0, 0, 0, 0.85) 65%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 90% at center, #000 45%, rgba(0, 0, 0, 0.85) 65%, transparent 100%);
+}
+/* A3 parallax scale target — a dedicated layer between the wrap (tilt
+   transform) and the img (A2 clip-path + hover scale), so the three
+   transform sources never write to the same element. */
+.contact-photo-zoom {
+  width: 100%;
+  height: 100%;
+}
+@media (min-width: 720px) and (prefers-reduced-motion: no-preference) {
+  .contact-photo-zoom { will-change: transform; }
+}
+.contact-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  filter: saturate(0.88) contrast(1.04) brightness(0.94);
+  transition: filter 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+/* A2 reveal — scroll-triggered via IntersectionObserver (initPhotoReveal
+   in main.js). Gated under .js-reveal so a no-JS or reduced-motion visit
+   never clips the photo. */
+.js-reveal .contact-photo[data-photo-reveal] {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 900ms var(--ease-out), filter 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+.contact-photo.is-revealed {
+  clip-path: inset(0 0 0% 0);
+}
+.contact-photo-wrap:hover .contact-photo {
+  filter: saturate(1.05) contrast(1.02) brightness(1);
+  transform: scale(1.02);
+}
+.contact-photo-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 45% at 25% 15%, rgba(212, 164, 55, 0.18) 0%, transparent 60%),
+    radial-gradient(80% 70% at 50% 100%, rgba(10, 10, 10, 0.55) 0%, transparent 70%);
+  z-index: 2;
+  mix-blend-mode: multiply;
+}
+
+.contact-text-col { display: flex; flex-direction: column; gap: 1.35rem; }
+.contact-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--cream-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.contact-title {
+  font-family: var(--serif);
+  font-size: clamp(1.85rem, 3.8vw, 2.85rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 300;
+  font-variation-settings: "opsz" 144, "SOFT" 60;
+  color: var(--cream);
+  max-width: 22ch;
+}
+.contact-title em { font-style: italic; color: var(--amber); font-variation-settings: "opsz" 144, "SOFT" 100; }
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--line);
+}
+.contact-links li {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.contact-links li:last-child { border-bottom: 0; }
+.contact-key { font-size: 0.72rem; color: var(--cream-3); text-transform: uppercase; letter-spacing: 0.05em; }
+.contact-val {
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  color: var(--cream);
+  font-weight: 400;
+  position: relative;
+  padding-bottom: 2px;
+  word-break: break-word;
+}
+a.contact-val::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out);
+}
+a.contact-val:hover { color: var(--amber); }
+a.contact-val:hover::after { transform: scaleX(1); }
+.contact-val-static {
+  color: var(--cream-2);
+  font-size: 0.95rem;
+  font-family: var(--sans);
+  line-height: 1.6;
+}
+
+@media (min-width: 960px) {
+  .contact-grid { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); }
+  .contact-photo-wrap { max-width: 320px; }
+}
+
+/* =============================================================
+   16. Footer
+   ============================================================= */
+.footer {
+  position: relative;
+  padding: clamp(2.5rem, 5vw, 4rem) var(--gutter);
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+.footer-inner {
+  max-width: var(--max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.footer-brand { display: flex; align-items: center; gap: 0.85rem; }
+/* Footer monogram — same proportions as the nav badge for consistency */
+.footer-monogram {
+  display: inline-block;
+  width: 64px;
+  height: 38px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-image: url("assets/img/logo-ad.png?v=20260529");
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+}
+.footer-name { font-family: var(--serif); font-size: 1.05rem; color: var(--cream); }
+.footer-tag { font-size: 0.72rem; color: var(--cream-3); letter-spacing: 0.02em; }
+
+/* =============================================================
+   17. Reduced motion
+   `.js-reveal` is never set under this preference, so nothing here
+   can be hiding content — these rules only stop the decoration.
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  /* belt and braces: content is visible no matter what class is present */
+  .reveal,
+  .blur-word,
+  .mobile-nav.is-open .mobile-nav-link { opacity: 1 !important; transform: none !important; }
+  .section-rule line { stroke-dashoffset: 0 !important; }
+  .hero-title { transform: none !important; opacity: 1 !important; }
+  .contact-photo-wrap { transform: none !important; }
+  .hero-scroll-line::after { animation: none !important; }
+  .dot,
+  .timeline-item.is-current .timeline-dot { animation: none !important; }
+}
+
+/* =============================================================
+   18. Small-screen rhythm
+   The page is read on a phone more than anywhere else, so the
+   vertical rhythm compresses hard below 720px.
+   ============================================================= */
+@media (max-width: 720px) {
+  :root {
+    --section-y: 2.75rem;
+    --card-r: 16px;
+  }
+  .hero {
+    min-height: auto;
+    padding-top: calc(var(--nav-h) + 2rem);
+    padding-bottom: 4rem;
+  }
+  .hero-grid { gap: 2rem; }
+  .hero-text-col { gap: 1.15rem; }
+  .hero-title { font-size: clamp(2.2rem, 8.5vw, 3rem); max-width: 100%; }
+  .hero-facts { margin-top: 0.5rem; padding-top: 1rem; gap: 0.6rem; }
+  .avatar-sticky { max-width: 210px; }
+  .section-head { margin-bottom: 1.6rem; gap: 0.9rem; }
+  .timeline { gap: 1.9rem; }
+  .timeline-item { gap: 0.9rem; padding-left: 1.4rem; }
+  .timeline-body { gap: 0.65rem; }
+  .projects-grid { gap: 1rem; }
+  .project-card-flat { padding: 1.25rem; gap: 0.75rem; }
+  .stack-groups { gap: 1.5rem; }
+  .stack-group { padding-bottom: 1.1rem; gap: 0.7rem; }
+  .stack-tags li { padding: 0.5rem 0.85rem; font-size: 0.8rem; }
+  .edu-list { gap: 1.5rem; }
+  .certs { padding-top: 1.5rem; margin-top: 1.5rem; }
+  .certs-list { gap: 0.7rem; }
+  .cert { padding: 0.85rem 1rem; grid-template-columns: 44px 1fr; }
+  .cert-logo { width: 44px; height: 44px; }
+  .langs { padding-top: 1.5rem; margin-top: 1.5rem; }
+  .langs-plain li { padding: 0.65rem 0; }
+  .article-link { padding: 1.1rem 1.15rem; }
+  .contact-grid { gap: 1.75rem; }
+  .contact-text-col { gap: 1.1rem; }
+  .contact-photo-wrap { max-width: 240px; }
+  .contact-links li { padding: 0.85rem 0; }
+  .footer { padding: 2.25rem var(--gutter); margin-top: 1.5rem; }
+}
+
+@media (max-width: 560px) {
+  /* label / value pairs stack rather than squeeze */
+  .case-row { grid-template-columns: 1fr; gap: 0.2rem; }
+  .contact-links li { grid-template-columns: 1fr; gap: 0.3rem; }
+  .langs-plain li { grid-template-columns: 1fr; gap: 0.2rem; }
+  .hero-fact { grid-template-columns: 1fr; gap: 0.15rem; }
+}
+
+@media (max-width: 540px) {
+  .nav-current { display: none; }
+  .nav-cta { font-size: 0.75rem; padding: 0.5rem 0.85rem; }
+  .section-label { font-size: 0.7rem; letter-spacing: 0.04em; }
+}

@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Alejandro Dorado · Backend Software Engineer</title>
+  <meta name="description" content="Backend Software Engineer working on logistics workflows and client integrations in Python, FastAPI, JavaScript and Lit.">
+  <meta name="author" content="Alejandro Dorado">
+
+  <link rel="canonical" href="https://alejandro-dorado.com/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://alejandro-dorado.com/">
+  <meta property="og:title" content="Alejandro Dorado · Backend Software Engineer">
+  <meta property="og:description" content="Backend Software Engineer working on logistics workflows and client integrations in Python, FastAPI, JavaScript and Lit.">
+  <meta property="og:image" content="https://alejandro-dorado.com/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta name="twitter:image" content="https://alejandro-dorado.com/assets/img/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon — gold AD monogram (PNG primary, SVG fallback). -->
+  <link rel="icon" type="image/png" href="assets/img/favicon.png?v=20260529">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" sizes="any">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Newsreader (publication serif, Production Type) + Inter (body) + JetBrains Mono.
+       Variable serif keeps the file count down — single woff2 covers all weights & italic. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap">
+
+  <link rel="preload" as="image" href="assets/img/photo-hero.jpg" fetchpriority="high">
+
+  <link rel="stylesheet" href="styles.css?v=20260826">
+
+  <!-- Progressive enhancement gate.
+       Every element on this page is VISIBLE BY DEFAULT. The entrance
+       animations only exist when this class is on <html>, which happens
+       synchronously before first paint and only when JS is available AND
+       the visitor has not asked for reduced motion. If this script never
+       runs, the page simply renders with no animation — never blank. -->
+  <script>
+    (function () {
+      try {
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.className += " js-reveal";
+        }
+      } catch (e) { /* no-op: page stays fully visible */ }
+    })();
+  </script>
+
+  <!-- Person schema for Google rich results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Alejandro Dorado",
+    "givenName": "Alejandro",
+    "familyName": "Dorado",
+    "jobTitle": "Backend Software Engineer",
+    "description": "Backend Software Engineer working on logistics workflows and client integrations in Python, FastAPI, JavaScript and Lit.",
+    "image": "https://alejandro-dorado.com/assets/img/photo-hero.jpg",
+    "url": "https://alejandro-dorado.com",
+    "email": "mailto:alejandrodorado.dev@gmail.com",
+    "knowsLanguage": ["Spanish", "English", "Portuguese"],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Grip Shipping, Inc."
+    },
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of North Florida",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Jacksonville",
+        "addressRegion": "FL",
+        "addressCountry": "US"
+      }
+    },
+    "knowsAbout": [
+      "Python", "FastAPI", "REST APIs", "JavaScript", "Lit", "Jinja2",
+      "SQL Server", "Redis", "Backend development", "System integrations"
+    ],
+    "sameAs": [
+      "https://linkedin.com/in/alejandrodorado",
+      "https://github.com/AlejandroDoradoP2002"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <div class="bg-grid" aria-hidden="true"><div class="bg-grid-track"></div></div>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Reading progress bar (fixed top, fills as you scroll) -->
+  <div class="progress-bar" aria-hidden="true">
+    <span class="progress-bar-fill" data-progress></span>
+  </div>
+
+  <!-- Top nav -->
+  <header class="nav" data-nav>
+    <a href="#hero" class="nav-brand" aria-label="Alejandro Dorado, back to top">
+      <span class="nav-monogram" aria-hidden="true">
+        <img src="assets/img/logo-ad.png?v=20260529" alt="" loading="eager"
+             onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'AD',className:'nav-monogram-fallback'}))">
+      </span>
+      <span class="nav-current mono" data-nav-current>00 · Index</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#work">Work</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="mailto:alejandrodorado.dev@gmail.com" class="nav-cta" data-magnetic>
+      <span class="nav-cta-dot"></span>
+      <span>Get in touch</span>
+    </a>
+
+    <!-- Mobile hamburger — visible only <960px -->
+    <button type="button" class="nav-burger" data-burger aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="nav-burger-line"></span>
+      <span class="nav-burger-line"></span>
+      <span class="nav-burger-line"></span>
+    </button>
+  </header>
+
+  <!-- Mobile nav drawer -->
+  <div class="mobile-nav" id="mobile-nav" data-mobile-nav aria-hidden="true">
+    <nav class="mobile-nav-inner" aria-label="Mobile sections">
+      <a href="#about" class="mobile-nav-link"><span class="mono">01</span><span>About</span></a>
+      <a href="#experience" class="mobile-nav-link"><span class="mono">02</span><span>Experience</span></a>
+      <a href="#work" class="mobile-nav-link"><span class="mono">03</span><span>Work</span></a>
+      <a href="#projects" class="mobile-nav-link"><span class="mono">04</span><span>Projects</span></a>
+      <a href="#skills" class="mobile-nav-link"><span class="mono">05</span><span>Skills</span></a>
+      <a href="#education" class="mobile-nav-link"><span class="mono">06</span><span>Education</span></a>
+      <a href="#writing" class="mobile-nav-link"><span class="mono">07</span><span>Writing</span></a>
+      <a href="#contact" class="mobile-nav-link"><span class="mono">08</span><span>Contact</span></a>
+    </nav>
+    <div class="mobile-nav-foot">
+      <a href="mailto:alejandrodorado.dev@gmail.com" class="mobile-nav-cta">Get in touch ↗</a>
+      <a href="assets/Alejandro-Dorado-Backend-Engineer-Resume.pdf" download="Alejandro-Dorado-Backend-Engineer-Resume.pdf" class="mobile-nav-secondary">Download CV ↓</a>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section class="hero" id="hero" aria-label="Introduction">
+      <!-- Static atmospheric layer — no animation, no filter blur -->
+      <div class="hero-atmos" aria-hidden="true"></div>
+
+      <div class="hero-grid">
+        <div class="hero-text-col">
+          <p class="eyebrow mono">
+            <span class="dot"></span>
+            <span>Backend Software Engineer · Remote · UTC-5</span>
+          </p>
+
+          <h1 class="hero-title" data-blur-reveal>Hi, I'm <em>Alejandro Dorado</em>, a backend engineer for logistics workflows and client integrations.</h1>
+
+          <p class="hero-meta">
+            I work on the Client Integrations team at <strong>Grip Shipping</strong>, contributing to an order-management platform across Python/FastAPI endpoints and JavaScript/Lit user flows. B.S. in Computer Science, University of North Florida.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#work" class="btn btn-pill btn-primary" data-magnetic>
+              <span>See my work</span>
+              <span class="btn-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+            </a>
+            <a href="assets/Alejandro-Dorado-Backend-Engineer-Resume.pdf" download="Alejandro-Dorado-Backend-Engineer-Resume.pdf" class="btn btn-pill btn-ghost" data-magnetic>
+              <span>Download CV</span>
+              <span class="btn-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v14"/><polyline points="6 11 12 17 18 11"/><line x1="4" y1="21" x2="20" y2="21"/></svg>
+              </span>
+            </a>
+            <a href="https://github.com/AlejandroDoradoP2002" target="_blank" rel="noopener noreferrer" class="btn btn-pill btn-ghost">
+              <span>GitHub</span>
+              <span class="btn-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </span>
+            </a>
+          </div>
+
+          <dl class="hero-facts mono">
+            <div class="hero-fact">
+              <dt>Stack</dt>
+              <dd>Python · FastAPI · JavaScript · Lit · SQL Server · Redis</dd>
+            </div>
+            <div class="hero-fact">
+              <dt>Languages</dt>
+              <dd>Spanish · English · Portuguese</dd>
+            </div>
+          </dl>
+        </div>
+
+        <aside class="hero-avatar-col" aria-label="Portrait">
+          <div class="avatar-sticky">
+            <div class="avatar avatar-static">
+              <div class="avatar-face avatar-front">
+                <img src="assets/img/photo-hero.jpg" alt="Alejandro Dorado"
+                     onerror="this.parentElement.classList.add('photo-missing'); this.remove();">
+                <div class="avatar-tint" aria-hidden="true"></div>
+              </div>
+              <div class="avatar-glow" aria-hidden="true"></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <a href="#about" class="hero-scroll-cue" aria-label="Scroll to next section">
+        <span class="mono">scroll</span>
+        <span class="hero-scroll-line" aria-hidden="true"></span>
+      </a>
+    </section>
+
+    <!-- ============================================================
+         01 / ABOUT
+         ============================================================ -->
+    <section class="section section-about" id="about" data-section-num="01" data-section-label="About">
+      <header class="section-head">
+        <span class="section-num mono">01</span>
+        <svg class="section-rule" aria-hidden="true" viewBox="0 0 600 1" preserveAspectRatio="none"><line x1="0" y1="0.5" x2="600" y2="0.5" stroke="currentColor" stroke-width="1" pathLength="1"/></svg>
+        <h2 class="section-label mono">About</h2>
+      </header>
+
+      <div class="about-text-col">
+        <p class="about-lede" data-mask-reveal>I write backend code for logistics software: bulk operations, row-level validation, and the <em>client integrations</em> that connect external systems to an order-management platform.</p>
+
+        <p class="about-body reveal">
+          I joined the Client Integrations team at Grip Shipping in February 2026 and work across Python/FastAPI endpoints and JavaScript/Lit user flows — spreadsheet ingestion with inline error feedback, configurable dashboard views, and marketplace order ingestion. Before that I completed a B.S. in Computer Science at the University of North Florida, entirely in English.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         02 / EXPERIENCE
+         ============================================================ -->
+    <section class="section section-work" id="experience" data-section-num="02" data-section-label="Experience">
+      <header class="section-head">
+        <span class="section-num mono">02</span>
+        <svg class="section-rule" aria-hidden="true" viewBox="0 0 600 1" preserveAspectRatio="none"><line x1="0" y1="0.5" x2="600" y2="0.5" stroke="currentColor" stroke-width="1" pathLength="1"/></svg>
+        <h2 class="section-label mono">Experience</h2>
+      </header>
+
+      <ol class="timeline">
+        <li class="timeline-item is-current">
+          <div class="timeline-spine" aria-hidden="true">
+            <span class="timeline-dot"></span>
+          </div>
+          <div class="timeline-meta">
+            <span class="mono">Feb 2026 / Present</span>
+            <span class="timeline-loc mono">Miami, FL · Remote</span>
+          </div>
+          <div class="timeline-body">
+            <h3 class="timeline-role">Backend Software Engineer</h3>
+            <p class="timeline-org">
+              Grip Shipping, Inc. <span class="amber mono">· Client Integrations</span>
+            </p>
+            <p class="timeline-desc">
+              Contribute to Grip's order-management platform across Python/FastAPI endpoints and JavaScript/Lit user flows.
+            </p>
+            <ul class="timeline-bullets">
+              <li>Implemented a <strong>bulk Advance Shipment Notice (ASN) workflow</strong> supporting Excel/CSV ingestion, row-level validation, inline error feedback, and safeguards for existing ASNs.</li>
+              <li>Implemented a <strong>bulk order-feedback workflow</strong> validating order IDs, category/subcategory mappings, duplicates, and affected SKUs before grouping and submitting results.</li>
+              <li>Adapted existing dashboard components into a configurable <strong>Orders graph view</strong> that shares filter state with the underlying table.</li>
+              <li>Added <strong>role-gated operational fee capture</strong> to ASN workflows.</li>
+              <li>Contributed to <strong>Shopify ingestion</strong> using GraphQL, Redis-backed caching, pagination, and rate-limit handling.</li>
+            </ul>
+            <p class="timeline-stack mono">Python · FastAPI · JavaScript · Lit · Jinja2 · REST APIs · SQL Server · Redis · GitHub Actions · Azure Application Insights</p>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-spine" aria-hidden="true">
+            <span class="timeline-dot"></span>
+          </div>
+          <div class="timeline-meta">
+            <span class="mono">Feb 2024 / Dec 2024</span>
+            <span class="timeline-loc mono">Jacksonville, FL</span>
+          </div>
+          <div class="timeline-body">
+            <h3 class="timeline-role">Programming Lab Assistant</h3>
+            <p class="timeline-org">University of North Florida</p>
+            <p class="timeline-desc">
+              First-line troubleshooting for <strong>900+ students per semester</strong> across lab systems, software environments, and accounts. Documented recurring issues and resolutions to reduce repeat incidents and speed up handoffs to senior staff.
+            </p>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-spine" aria-hidden="true">
+            <span class="timeline-dot"></span>
+          </div>
+          <div class="timeline-meta">
+            <span class="mono">Aug 2022 / Jan 2023</span>
+            <span class="timeline-loc mono">Bogotá, Colombia</span>
+          </div>
+          <div class="timeline-body">
+            <h3 class="timeline-role">Data Analysis Intern</h3>
+            <p class="timeline-org">SalesLand Colombia SAS</p>
+            <p class="timeline-desc">
+              Cleaned and validated recruitment and performance datasets in Python and Excel. Built automation scripts that reduced manual reporting time and surfaced data anomalies for leadership review.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============================================================
+         03 / SELECTED PRODUCTION WORK
+         ============================================================ -->
+    <section class="section section-cases" id="work" data-section-num="03" data-section-label="Selected Work">
+      <header class="section-head">
+        <span class="section-num mono">03</span>
+        <svg class="section-rule" aria-hidden="true" viewBox="0 0 600 1" preserveAspectRatio="none"><line x1="0" y1="0.5" x2="600" y2="0.5" stroke="currentColor" stroke-width="1" pathLength="1"/></svg>
+        <h2 class="section-label mono">Selected production work</h2>
+      </header>
+
+      <div class="projects-grid">
+        <article class="project-card project-card-flat">
+          <div class="project-meta mono">
+            <span class="project-org">Grip Shipping</span>
+            <span class="project-status"><span class="dot"></span> in production</span>
+          </div>
+          <h3 class="project-title">Bulk Advance Shipment Notice workflow</h3>
+          <dl class="case-list">
+            <div class="case-row">
+              <dt class="mono">Context</dt>
+              <dd>Shipment notices previously required repeated individual entry.</dd>
+            </div>
+            <div class="case-row">
+              <dt class="mono">Contribution</dt>
+              <dd>Implemented spreadsheet ingestion across FastAPI and Lit, including Excel/CSV parsing, row-level validation, existing-ASN safeguards, and inline error feedback.</dd>
+            </div>
+            <div class="case-row">
+              <dt class="mono">Result</dt>
+              <dd>Users can prepare and submit multiple shipment notices from one spreadsheet instead of creating each one individually.</dd>
+            </div>
+          </dl>
+          <ul class="project-tags mono">
+            <li>Python</li>
+            <li>FastAPI</li>
+            <li>pandas</li>
+            <li>Lit</li>
+            <li>REST APIs</li>
+          </ul>
+        </article>
+
+        <article class="project-card project-card-flat">
+          <div class="project-meta mono">
+            <span class="project-org">Grip Shipping</span>
+            <span class="project-status"><span class="dot"></span> in production</span>
+          </div>
+          <h3 class="project-title">Bulk order-feedback workflow</h3>
+          <dl class="case-list">
+            <div class="case-row">
+              <dt class="mono">Context</dt>
+              <dd>Customer order feedback needed validation across orders, categories, duplicates, and affected products.</dd>
+            </div>
+            <div class="case-row">
+              <dt class="mono">Contribution</dt>
+              <dd>Implemented spreadsheet processing, grouped validation results, and a Lit interface for uploading files and reviewing errors.</dd>
+            </div>
+            <div class="case-row">
+              <dt class="mono">Result</dt>
+              <dd>Feedback for many orders is validated and submitted in one pass, with grouped validation errors surfaced before anything is sent.</dd>
+            </div>
+          </dl>
+          <ul class="project-tags mono">
+            <li>Python</li>
+            <li>FastAPI</li>
+            <li>JavaScript</li>
+            <li>Lit</li>
+            <li>pandas</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         04 / PUBLIC PROJECTS
+         ============================================================ -->
+    <section class="section section-projects" id="projects" data-section-num="04" data-section-label="Projects">
+      <header class="section-head">
+        <span class="section-num mono">04</span>
+        <svg class="section-rule" aria-hidden="true" viewBox="0 0 600 1" preserveAspectRatio="none"><line x1="0" y1="0.5" x2="600" y2="0.5" stroke="currentColor" stroke-width="1" pathLength="1"/></svg>
+        <h2 class="section-label mono">Public projects</h2>
+      </header>
+
+      <div class="projects-grid">
+        <article class="project-card project-card-flat">
+          <div class="project-meta mono">
+            <span class="project-org">Personal · product prototype</span>
+            <span class="project-status"><span class="dot"></span> public</span>
+          </div>
+          <h3 class="project-title">PRism · PR coverage dashboard</h3>
+          <p class="project-desc">Personal product prototype that converts spreadsheet-based media coverage into normalized dashboards and presentation exports.</p>
+          <ul class="project-tags mono">
+            <li>Python</li>
+            <li>FastAPI</li>
+            <li>SQLAlchemy</li>
+            <li>PostgreSQL</li>
+            <li>Lit</li>
+            <li>pandas</li>
+            <li>ECharts</li>
+          </ul>
+          <div class="project-foot mono">
+            <a href="https://github.com/AlejandroDoradoP2002/pr-coverage-dashboard" target="_blank" rel="noopener noreferrer" class="project-link" data-magnetic>
+              <span>Source on GitHub</span>
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-link-arrow"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="project-card project-card-flat">
+          <div class="project-meta mono">
+            <span class="project-org">Personal · machine learning</span>
+            <span class="project-status"><span class="dot"></span> public</span>
+          </div>
+          <h3 class="project-title">AI JobShield</h3>
+          <p class="project-desc">Interactive fraud-classification demo trained and evaluated on more than 17,000 labeled job listings.</p>
+          <ul class="project-tags mono">
+            <li>Python</li>
+            <li>scikit-learn</li>
+            <li>Streamlit</li>
+          </ul>
+          <div class="project-foot mono">
+            <a href="https://github.com/AlejandroDoradoP2002/ai-jobshield" target="_blank" rel="noopener noreferrer" class="project-link" data-magnetic>
+              <span>Source on GitHub</span>
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-link-arrow"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         05 / SKILLS — grouped by evidence, not by buzzword
+         ============================================================ -->
+    <section class="section section-stack" id="skills" data-section-num="05" data-section-label="Skills">
+      <header class="section-head">
+        <span class="section-num mono">05</span>
+        <svg class="section-rule" aria-hidden="true" viewBox="0 0 600 1" preserveAspectRatio="none"><line x1="0" y1="0.5" x2="600" y2="0.5" stroke="currentColor" stroke-width="1" pathLength="1"/></svg>
+        <h2 class="section-label mono">Skills</h2>
+      </header>
+
+      <div class="stack-groups">
+        <div class="stack-group">
+          <h4 class="stack-cat mono">Used regularly in my current role</h4>
+          <ul class="stack-tags">
+            <li>Python</li><li>FastAPI</li><li>JavaScript</li><li>Lit</li><li>Jinja2</li><li>REST APIs</li><li>Git</li>
+          </ul>
+        </div>
+        <div class="stack-group">
+          <h4 class="stack-cat mono">Production systems I work with</h4>
+          <ul class="stack-tags">
+            <li>SQL Server</li><li>Redis</li><li>DuckDB</li><li>Delta Lake</li><li>Databricks</li><li>Azure Application Insights</li><li>GitHub Actions</li>
+          </ul>
+        </div>
+        <div class="stack-group">
+          <h4 class="stack-cat mono">Project experience</h4>
+          <ul class="stack-tags">
+            <li>PostgreSQL</li><li>Django</li><li>React</li><li>MySQL</li><li>pandas</li><li>scikit-learn</li><li>Streamlit</li><li>Docker</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         06 / EDUCATION & LANGUAGES
+         ============================================================ -->
+    <section class="section section-education" id="education" data-section-num="06" data-section-label="Education">
+      <header class="section-head">
+        <span class="section-num mono">06</span>
+        <svg class="section-rule" aria-hidden="true" viewBox="0 0 600 1" preserveAspectRatio="none"><line x1="0" y1="0.5" x2="600" y2="0.5" stroke="currentColor" stroke-width="1" pathLength="1"/></svg>
+        <h2 class="section-label mono">Education &amp; languages</h2>
+      </header>
+
+      <ol class="edu-list">
+        <li class="edu-item">
+          <div class="edu-meta mono">Jan 2021 / Dec 2025 · Jacksonville, FL</div>
+          <h3 class="edu-degree">B.S. Computer Science</h3>
+          <p class="edu-school">University of North Florida</p>
+          <ul class="edu-tags mono">
+            <li><span class="amber">GPA 3.75 / 4.0</span></li>
+            <li>President's List</li>
+            <li>Dean's List</li>
+            <li>Latin American / Caribbean Scholarship (UNF)</li>
+            <li>Upsilon Pi Epsilon (ΥΠΕ)</li>
+          </ul>
+          <p class="edu-courses">Data Structures · Algorithms · Databases · Computer Networks · Systems Programming · Software Engineering. Degree completed entirely in English.</p>
+        </li>
+      </ol>
+
+      <div class="certs">
+        <h4 class="certs-head mono">Certifications</h4>
+        <ul class="certs-list">
+
+          <li class="cert">
+            <span class="cert-logo cert-logo-light" aria-hidden="true">
+              <img src="assets/img/certs/edx.svg" alt="" width="30" height="30" loading="lazy" decoding="async">
+            </span>
+            <span class="cert-body">
+              <span class="cert-name">CS50: Introduction to Computer Science</span>
+              <span class="cert-issuer mono">HarvardX · edX</span>
+            </span>
+          </li>
+
+          <li class="cert">
+            <span class="cert-logo cert-logo-light" aria-hidden="true">
+              <img src="assets/img/certs/meta.svg" alt="" width="30" height="30" loading="lazy" decoding="async">
+            </span>
+            <span class="cert-body">
+              <span class="cert-name">Back-End Developer Professional Certificate</span>
+              <span class="cert-issuer mono">Meta · Coursera</span>
+            </span>
+          </li>
+
+        </ul>
+      </div>
+
+      <div class="langs">
+        <h4 class="certs-head mono">Languages</h4>
+        <ul class="langs-plain">
+          <li>
+            <span class="lang-plain-name">Spanish</span>
+            <span class="lang-plain-level mono">Native</span>
+          </li>
+          <li>
+            <span class="lang-plain-name">English</span>
+            <span class="lang-plain-level mono">Professional working proficiency · full university degree completed in English</span>
+          </li>
+          <li>
+            <span class="lang-plain-name">Portuguese</span>
+            <span class="lang-plain-level mono">B1</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         07 / WRITING
+         ============================================================
+         HOW TO ADD AN ARTICLE:
+         1. Duplicate the <li class="article-card"> block below.
+         2. Replace the href with your LinkedIn article URL.
+         3. Replace the number, title, date and excerpt.
+         ============================================================ -->
+    <section class="section section-articles" id="writing" data-section-num="07" data-section-label="Writing">
+      <header class="section-head">
+        <span class="section-num mono">07</span>
+        <svg class="section-rule" aria-hidden="true" viewBox="0 0 600 1" preserveAspectRatio="none"><line x1="0" y1="0.5" x2="600" y2="0.5" stroke="currentColor" stroke-width="1" pathLength="1"/></svg>
+        <h2 class="section-label mono">Writing</h2>
+      </header>
+
+      <ol class="articles-list">
+        <li class="article-card">
+          <a href="https://www.linkedin.com/pulse/what-cold-chain-logistics-taught-me-writing-software-actually-dorado-nqwze/" target="_blank" rel="noopener noreferrer" class="article-link">
+            <div class="article-meta mono">
+              <span class="article-num">01</span>
+              <span class="article-date">May 2026</span>
+            </div>
+            <h3 class="article-title">What cold-chain logistics taught me about writing software that actually works</h3>
+            <p class="article-excerpt">Notes from working on logistics software, and what a production environment teaches you that coursework does not.</p>
+            <div class="article-foot mono">
+              <span class="article-tags">logistics · backend · production</span>
+              <span class="article-cta">Read on LinkedIn <span aria-hidden="true">↗</span></span>
+            </div>
+          </a>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============================================================
+         08 / CONTACT
+         ============================================================ -->
+    <section class="section section-contact" id="contact" data-section-num="08" data-section-label="Contact">
+      <header class="section-head">
+        <span class="section-num mono">08</span>
+        <svg class="section-rule" aria-hidden="true" viewBox="0 0 600 1" preserveAspectRatio="none"><line x1="0" y1="0.5" x2="600" y2="0.5" stroke="currentColor" stroke-width="1" pathLength="1"/></svg>
+        <h2 class="section-label mono">Contact</h2>
+      </header>
+
+      <div class="contact-grid">
+        <div class="contact-photo-col">
+          <div class="contact-photo-wrap" data-tilt>
+            <div class="contact-photo-zoom">
+              <img src="assets/img/photo-contact.jpg"
+                   alt="Alejandro Dorado, portrait"
+                   class="contact-photo"
+                   loading="lazy"
+                   decoding="async"
+                   data-photo-reveal
+                   onerror="this.parentElement.classList.add('photo-missing'); this.remove();">
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-text-col">
+          <p class="contact-eyebrow mono"><span class="dot"></span> Talk soon?</p>
+          <h3 class="contact-title" data-mask-reveal>Open to backend and <em>integrations</em> roles.</h3>
+
+          <ul class="contact-links">
+            <li>
+              <span class="contact-key mono">Email</span>
+              <a href="mailto:alejandrodorado.dev@gmail.com" class="contact-val" data-magnetic>alejandrodorado.dev@gmail.com</a>
+            </li>
+            <li>
+              <span class="contact-key mono">LinkedIn</span>
+              <a href="https://linkedin.com/in/alejandrodorado" target="_blank" rel="noopener noreferrer" class="contact-val" data-magnetic>linkedin.com/in/alejandrodorado<span aria-hidden="true"> ↗</span></a>
+            </li>
+            <li>
+              <span class="contact-key mono">GitHub</span>
+              <a href="https://github.com/AlejandroDoradoP2002" target="_blank" rel="noopener noreferrer" class="contact-val" data-magnetic>github.com/AlejandroDoradoP2002<span aria-hidden="true"> ↗</span></a>
+            </li>
+            <li>
+              <span class="contact-key mono">CV</span>
+              <a href="assets/Alejandro-Dorado-Backend-Engineer-Resume.pdf" download="Alejandro-Dorado-Backend-Engineer-Resume.pdf" class="contact-val" data-magnetic>Download résumé <span aria-hidden="true">↓</span></a>
+            </li>
+            <li>
+              <span class="contact-key mono">Availability</span>
+              <span class="contact-val contact-val-static">Working remotely from Colombia (UTC-5) · Full overlap with U.S. Eastern business hours · Open to remote roles and to relocation for the right opportunity.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-monogram mono" aria-hidden="true"></span>
+        <span class="footer-name">Alejandro Dorado</span>
+      </div>
+      <p class="footer-tag mono">© 2026 Alejandro Dorado</p>
+    </div>
+  </footer>
+
+  <!-- Scripts: lean payload — no framework, no animation library. -->
+  <script defer src="lib/manifest.js?v=20260826"></script>
+  <script defer src="main.js?v=20260826"></script>
+</body>
+</html>

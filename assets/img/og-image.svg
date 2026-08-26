@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="mesh" cx="30%" cy="60%" r="60%">
+      <stop offset="0%" stop-color="#d4a437" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#d4a437" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="mesh2" cx="80%" cy="20%" r="50%">
+      <stop offset="0%" stop-color="#b8862a" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#b8862a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <rect width="1200" height="630" fill="url(#mesh)"/>
+  <rect width="1200" height="630" fill="url(#mesh2)"/>
+  <text x="80" y="80" font-family="JetBrains Mono, monospace" font-size="18" fill="#9c947d" letter-spacing="2">AD · 2026</text>
+  <text x="80" y="320" font-family="Fraunces, Georgia, serif" font-size="118" fill="#f0ead6" font-weight="300" letter-spacing="-4">Alejandro</text>
+  <text x="80" y="450" font-family="Fraunces, Georgia, serif" font-size="118" fill="#d4a437" font-weight="300" font-style="italic" letter-spacing="-4">Dorado.</text>
+  <text x="80" y="540" font-family="Fraunces, Georgia, serif" font-size="32" fill="#d6cfb8" font-weight="300">Backend Software Engineer · Python · FastAPI · Lit</text>
+  <text x="80" y="585" font-family="JetBrains Mono, monospace" font-size="16" fill="#9c947d" letter-spacing="1.5">alejandro-dorado.com</text>
+  <line x1="80" y1="600" x2="1120" y2="600" stroke="#f0ead6" stroke-opacity="0.10"/>
+</svg>
