@@ -1,0 +1,12 @@
+.git
+.wrangler
+.claude
+.github
+.DS_Store
+.gitignore
+.assetsignore
+README.md
+wrangler.toml
+.htaccess
+cv
+tools
