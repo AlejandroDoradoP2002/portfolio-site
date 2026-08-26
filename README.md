@@ -2,27 +2,33 @@
 
 A static, hand-written single-page portfolio. No framework, no build step, no npm — plain HTML, CSS, and vanilla JavaScript.
 
-Live at [alejandro-dorado.com](https://alejandro-dorado.com), deployed via Cloudflare Pages.
+Live at [alejandro-dorado.com](https://alejandro-dorado.com), deployed to Cloudflare Workers.
 
 ## What's inside
 
+Everything under `public/` — and nothing else — is what gets deployed. Keeping the
+site in its own directory is deliberate: `wrangler` uploads the asset directory
+verbatim, so a repo-root asset directory would publish `.git/` along with the site.
+
 ```
 portfolio-site/
-├── index.html          ← the page
-├── styles.css          ← all design
-├── main.js             ← all behavior (IIFE, vanilla JS)
-├── lib/
-│   └── manifest.js     ← brand + section data exposed at window.__BRAND__
-├── assets/              ← photos, CV, favicons, OG image
-├── cv/                  ← LaTeX source for the CV
-├── tools/                ← OG-image generation helpers
-└── robots.txt
+├── public/             ← the deployed site; nothing outside this ships
+│   ├── index.html          ← the page
+│   ├── styles.css          ← all design
+│   ├── main.js             ← all behavior (IIFE, vanilla JS)
+│   ├── robots.txt
+│   ├── lib/
+│   │   └── manifest.js     ← brand + section data exposed at window.__BRAND__
+│   └── assets/             ← photos, CV, favicons, OG image
+├── cv/                 ← LaTeX source for the CV
+├── tools/              ← OG-image generation helpers
+└── wrangler.toml       ← deploy config (asset dir + custom domain)
 ```
 
 ## How to preview locally
 
 ```bash
-python3 -m http.server 4173
+python3 -m http.server 4173 --directory public
 # then open http://localhost:4173
 ```
 
@@ -30,7 +36,12 @@ Classic `<script defer>` tags, no ES modules — opening `index.html` directly a
 
 ## Deploy
 
-Pushing to `main` triggers a Cloudflare Pages build (static, no build command, output directory `/`).
+```bash
+npx wrangler deploy
+```
+
+`wrangler.toml` declares both the asset directory and the custom domain, so the
+deploy is reproducible from the CLI without touching the Cloudflare dashboard.
 
 ## Design notes
 

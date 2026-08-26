@@ -1,5 +1,11 @@
 name = "portfolio-site"
 compatibility_date = "2026-08-26"
 
+# The live domain is declared here rather than wired up in the dashboard,
+# so `wrangler deploy` is the single source of truth for where this ships.
+routes = [
+  { pattern = "alejandro-dorado.com", custom_domain = true }
+]
+
 [assets]
-directory = "."
+directory = "./public"
