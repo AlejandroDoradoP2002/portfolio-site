@@ -31,11 +31,14 @@
   --line-strong:  rgba(240, 234, 214, 0.22);
   --grid-line:    rgba(240, 234, 214, 0.045);
 
-  /* --- type --- Newsreader for headlines (modern publication serif),
-       Inter for body, JetBrains Mono for labels --- */
-  --serif:  "Newsreader", "Times New Roman", Georgia, serif;
+  /* --- type --- one typeface: Inter Variable (Rasmus Andersson).
+       The three variables are kept as ROLES, not families: --sans is body,
+       --serif is the display role, --mono is the label/number role. All three
+       resolve to Inter; the roles are now separated by weight, optical size
+       and tracking instead of by typeface. --- */
   --sans:   "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --mono:   "JetBrains Mono", ui-monospace, "SF Mono", Consolas, Monaco, monospace;
+  --serif:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono:   "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
   /* --- easing --- */
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
@@ -119,9 +122,14 @@ ul, ol { list-style: none; }
 
 .mono {
   font-family: var(--mono);
-  font-weight: 400;
-  letter-spacing: 0;
-  font-feature-settings: "ss01", "ss02";
+  font-weight: 500;
+  letter-spacing: 0.045em;
+  /* Inter has no fixed pitch, so the label/number role is carried by
+     tabular figures (tnum) + the open-4 alternate (cv05) so 01–08, dates
+     and the hero-fact columns stay column-aligned and unambiguous. */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
+  font-variation-settings: "opsz" 14;
 }
 .amber { color: var(--amber); }
 
@@ -292,6 +300,8 @@ ul, ol { list-style: none; }
   gap: 0.8rem;
   font-family: var(--serif);
   font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.018em;
 }
 /* Nav monogram — wider pill badge that respects the 2:1 aspect of the
    "AD" gold logo (the letters need horizontal room or they get cropped). */
@@ -319,7 +329,7 @@ ul, ol { list-style: none; }
 }
 .nav-monogram-fallback {
   font-family: var(--serif);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1rem;
   color: var(--amber);
   letter-spacing: 0.02em;
@@ -456,9 +466,10 @@ ul, ol { list-style: none; }
   border-bottom: 1px solid var(--line);
   font-family: var(--serif);
   font-size: clamp(1.5rem, 6vw, 2.4rem);
-  font-weight: 300;
+  font-weight: 600;
   color: var(--cream);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.035em;
+  font-variation-settings: "opsz" 32;
   line-height: 1;
   transition: color 0.3s var(--ease-out), padding-left 0.4s var(--ease-out);
 }
@@ -624,11 +635,15 @@ body.has-mobile-nav-open { overflow: hidden; }
 }
 .hero-title {
   font-family: var(--serif);
-  font-weight: 300;
-  font-size: clamp(2.5rem, 5.2vw, 4.25rem);
-  line-height: 1.05;
-  letter-spacing: -0.028em;
-  font-variation-settings: "opsz" 144, "SOFT" 60;
+  font-weight: 600;
+  /* Inter at 600 sets noticeably wider than Newsreader at 300, so the display
+     size comes down a step to keep the headline at four lines in the 680px
+     hero column and the hero inside 100vh. */
+  font-size: clamp(2.2rem, 4.4vw, 3.6rem);
+  line-height: 1.06;
+  /* Inter needs real negative tracking at display size. */
+  letter-spacing: -0.042em;
+  font-variation-settings: "opsz" 32;
   color: var(--cream);
   margin: 0.4rem 0 0;
   text-wrap: balance;
@@ -642,8 +657,10 @@ body.has-mobile-nav-open { overflow: hidden; }
 }
 .hero-title em {
   font-style: italic;
+  font-weight: 700;
   color: var(--amber);
-  font-variation-settings: "opsz" 144, "SOFT" 100;
+  letter-spacing: -0.035em;
+  font-variation-settings: "opsz" 32;
   text-shadow:
     0 1px 0 rgba(212, 164, 55, 0.18),
     0 2px 0 rgba(212, 164, 55, 0.14),
@@ -775,9 +792,9 @@ html.js-reveal.is-ready .avatar-face {
   place-items: center;
   font-family: var(--serif);
   font-size: clamp(3rem, 12cqi, 8rem);
-  font-weight: 300;
+  font-weight: 700;
   font-style: italic;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
   color: var(--amber);
   opacity: 0.85;
   container-type: inline-size;
@@ -855,10 +872,13 @@ html.js-reveal.is-ready .avatar-face {
   top: 0;
   z-index: -1;
   font-family: var(--serif);
-  font-weight: 300;
+  /* Watermark stays texture, not a slab: Inter at 700 read as a solid block
+     behind the copy where Newsreader 300 read as a ghost, so it comes down. */
+  font-weight: 500;
   font-size: clamp(3.5rem, 13vw, 11rem);
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.05em;
+  font-variation-settings: "opsz" 32;
   text-transform: uppercase;
   color: var(--cream);
   white-space: nowrap;
@@ -880,7 +900,7 @@ html.js-reveal.is-ready .avatar-face {
   margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
   color: var(--cream-3);
 }
-.section-num { font-size: 0.85rem; color: var(--amber); letter-spacing: 0.02em; }
+.section-num { font-size: 0.85rem; color: var(--amber); letter-spacing: 0.06em; font-weight: 600; font-variant-numeric: tabular-nums; }
 .section-rule { width: 100%; height: 1px; color: var(--line); }
 /* Drawn by default. The draw-in only exists inside the animation gate. */
 .section-rule line { stroke-dasharray: 1; stroke-dashoffset: 0; }
@@ -903,15 +923,15 @@ html.js-reveal.is-ready .avatar-face {
 .about-lede {
   font-family: var(--serif);
   font-size: clamp(1.45rem, 3vw, 2.05rem);
-  line-height: 1.28;
-  letter-spacing: -0.018em;
+  line-height: 1.3;
+  letter-spacing: -0.028em;
   color: var(--cream);
-  font-weight: 300;
-  font-variation-settings: "opsz" 96, "SOFT" 50;
+  font-weight: 500;
+  font-variation-settings: "opsz" 32;
   text-wrap: balance;
   max-width: 36ch;
 }
-.about-lede em { font-style: italic; color: var(--amber); }
+.about-lede em { font-style: italic; font-weight: 600; color: var(--amber); letter-spacing: -0.022em; }
 .about-body { font-size: 1rem; line-height: 1.65; color: var(--cream-2); max-width: 62ch; }
 
 /* =============================================================
@@ -955,9 +975,10 @@ html.js-reveal.is-ready .avatar-face {
 .timeline-role {
   font-family: var(--serif);
   font-size: clamp(1.5rem, 2.6vw, 1.85rem);
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.032em;
+  font-variation-settings: "opsz" 32;
   color: var(--cream);
 }
 .timeline-org { font-size: 1rem; color: var(--cream-2); }
@@ -1048,9 +1069,10 @@ html.js-reveal.is-ready .avatar-face {
 .project-title {
   font-family: var(--serif);
   font-size: clamp(1.35rem, 2.4vw, 1.65rem);
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.18;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.028em;
+  font-variation-settings: "opsz" 32;
   color: var(--cream);
   padding: 0 0.4rem;
 }
@@ -1182,9 +1204,10 @@ html.js-reveal.is-ready .avatar-face {
 .article-title {
   font-family: var(--serif);
   font-size: clamp(1.2rem, 2.2vw, 1.5rem);
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.25;
-  letter-spacing: -0.018em;
+  letter-spacing: -0.026em;
+  font-variation-settings: "opsz" 32;
   color: var(--cream);
 }
 .article-card:hover .article-title { color: var(--amber); }
@@ -1265,8 +1288,9 @@ html.js-reveal.is-ready .avatar-face {
 .edu-degree {
   font-family: var(--serif);
   font-size: clamp(1.6rem, 3vw, 2.1rem);
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  letter-spacing: -0.032em;
+  font-variation-settings: "opsz" 32;
   color: var(--cream);
 }
 .edu-school { font-size: 1rem; color: var(--cream-2); }
@@ -1343,7 +1367,8 @@ html.js-reveal.is-ready .avatar-face {
 .cert-name {
   font-family: var(--serif);
   font-size: 1.05rem;
-  font-weight: 400;
+  font-weight: 600;
+  letter-spacing: -0.012em;
   color: var(--cream);
   line-height: 1.25;
 }
@@ -1372,9 +1397,9 @@ html.js-reveal.is-ready .avatar-face {
 .lang-plain-name {
   font-family: var(--serif);
   font-size: 1.1rem;
-  font-weight: 400;
+  font-weight: 600;
   color: var(--cream);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.014em;
 }
 .lang-plain-level {
   font-size: 0.78rem;
@@ -1459,14 +1484,14 @@ html.js-reveal.is-ready .avatar-face {
 .contact-title {
   font-family: var(--serif);
   font-size: clamp(1.85rem, 3.8vw, 2.85rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  font-weight: 300;
-  font-variation-settings: "opsz" 144, "SOFT" 60;
+  line-height: 1.12;
+  letter-spacing: -0.036em;
+  font-weight: 600;
+  font-variation-settings: "opsz" 32;
   color: var(--cream);
   max-width: 22ch;
 }
-.contact-title em { font-style: italic; color: var(--amber); font-variation-settings: "opsz" 144, "SOFT" 100; }
+.contact-title em { font-style: italic; font-weight: 700; color: var(--amber); letter-spacing: -0.03em; font-variation-settings: "opsz" 32; }
 .contact-links {
   display: flex;
   flex-direction: column;
@@ -1488,7 +1513,8 @@ html.js-reveal.is-ready .avatar-face {
   font-family: var(--serif);
   font-size: clamp(1.05rem, 2vw, 1.3rem);
   color: var(--cream);
-  font-weight: 400;
+  font-weight: 500;
+  letter-spacing: -0.014em;
   position: relative;
   padding-bottom: 2px;
   word-break: break-word;
@@ -1548,7 +1574,7 @@ a.contact-val:hover::after { transform: scaleX(1); }
   background-position: center;
   background-color: transparent;
 }
-.footer-name { font-family: var(--serif); font-size: 1.05rem; color: var(--cream); }
+.footer-name { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; letter-spacing: -0.014em; color: var(--cream); }
 .footer-tag { font-size: 0.72rem; color: var(--cream-3); letter-spacing: 0.02em; }
 
 /* =============================================================
