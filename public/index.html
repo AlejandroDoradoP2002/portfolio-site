@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0a0a0a">
   <title>Alejandro Dorado · Software Engineer</title>
-  <meta name="description" content="Backend Software Engineer at Grip Shipping, fulfillment software for perishable-goods brands. Most of my tickets are in the customer web app, so the same change often runs from a Lit component through a FastAPI route down to SQL Server.">
+  <meta name="description" content="Backend software engineer at Grip Shipping. I take business requests to production releases in Python, FastAPI, SQL Server and Azure, and I work specification-first with AI coding agents under human review.">
   <meta name="author" content="Alejandro Dorado">
 
   <link rel="canonical" href="https://alejandro-dorado.com/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://alejandro-dorado.com/">
   <meta property="og:title" content="Alejandro Dorado · Software Engineer">
-  <meta property="og:description" content="Backend Software Engineer at Grip Shipping, fulfillment software for perishable-goods brands. Most of my tickets are in the customer web app, so the same change often runs from a Lit component through a FastAPI route down to SQL Server.">
+  <meta property="og:description" content="Backend software engineer at Grip Shipping. I take business requests to production releases in Python, FastAPI, SQL Server and Azure, and I work specification-first with AI coding agents under human review.">
   <meta property="og:image" content="https://alejandro-dorado.com/assets/img/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -61,7 +61,7 @@
     "givenName": "Alejandro",
     "familyName": "Dorado",
     "jobTitle": "Backend Software Engineer",
-    "description": "Backend Software Engineer at Grip Shipping, fulfillment software for perishable-goods brands. Most of my tickets are in the customer web app, so the same change often runs from a Lit component through a FastAPI route down to SQL Server.",
+    "description": "Backend software engineer at Grip Shipping. I take business requests to production releases in Python, FastAPI, SQL Server and Azure, and I work specification-first with AI coding agents under human review.",
     "image": "https://alejandro-dorado.com/assets/img/photo-hero.jpg",
     "url": "https://alejandro-dorado.com",
     "email": "mailto:alejandrodorado.dev@gmail.com",
@@ -81,8 +81,8 @@
       }
     },
     "knowsAbout": [
-      "Python", "FastAPI", "REST APIs", "JavaScript", "Lit", "Jinja2",
-      "SQL Server", "Redis", "Backend development", "System integrations"
+      "Python", "FastAPI", "REST APIs", "SQL Server", "Azure", "Databricks",
+      "Shopify GraphQL API", "AI coding agents", "Backend development", "System integrations"
     ],
     "sameAs": [
       "https://linkedin.com/in/alejandrodorado",
@@ -162,13 +162,13 @@
         <div class="hero-text-col">
           <p class="eyebrow mono">
             <span class="dot"></span>
-            <span>Software Engineer · Remote · UTC-5</span>
+            <span>Software Engineer · Colombia · UTC-5</span>
           </p>
 
           <h1 class="hero-title" data-blur-reveal>Hi, I'm <em>Alejandro Dorado</em>, a software engineer working on fulfillment software for perishable-goods brands.</h1>
 
           <p class="hero-meta">
-            Backend Software Engineer at <strong>Grip Shipping</strong>, fulfillment software for perishable-goods brands. Most of my tickets are in the customer web app, so the same change often runs from a Lit component through a FastAPI route down to SQL Server.
+            Backend Software Engineer on the Client Integrations team at <strong>Grip Shipping</strong>. I take business requests to production releases in Python, FastAPI, SQL Server and Azure, working specification-first with AI coding agents under human review.
           </p>
 
           <div class="hero-actions">
@@ -189,7 +189,7 @@
           <dl class="hero-facts mono">
             <div class="hero-fact">
               <dt>Stack</dt>
-              <dd>Python · FastAPI · JavaScript · Lit · SQL Server · Redis</dd>
+              <dd>Python · FastAPI · SQL Server · Azure · JavaScript · Lit</dd>
             </div>
             <div class="hero-fact">
               <dt>Agents</dt>
@@ -233,18 +233,10 @@
       </header>
 
       <div class="about-text-col">
-        <p class="about-lede" data-mask-reveal>I've worked at Grip since February 2026. My title is Backend Software Engineer, but most of my tickets are in the <em>customer web app</em>, so one change often touches a Lit component, the FastAPI route behind it and the SQL underneath. A lot of them start with a client or someone in operations reporting that something looks wrong.</p>
+        <p class="about-lede" data-mask-reveal>I've worked at Grip since February 2026. Most of my work is taking a request from operations, product or a client to a <em>tested change in production</em>: Shopify order imports, data uploads, validation rules and the fixes that come after launch.</p>
 
         <p class="about-body reveal">
-          I do most of my investigation with Claude Code and Cursor agents. When I look into a bug, one set of agents looks for the cause and a second set tries to prove it wrong. I check what survives against the code myself before I change anything.
-        </p>
-
-        <p class="about-body reveal">
-          The agents keep a ticket log through two commands I wrote, /save and /ticket. Each fact in it is marked as confirmed, deduced or pending. Scheduled agents summarize new tickets every morning, pointing to the part of the code each one touches, and scan error logs for failures.
-        </p>
-
-        <p class="about-body reveal">
-          My B.S. in Computer Science was entirely in English.
+          I work specification-first. Before I write code, the rules are agreed with the people who own them, and the tests come from those rules. I build with Claude Code and Cursor every day: a second set of agents tries to disprove what the first set found, and I check what survives against the code before changing anything.
         </p>
       </div>
     </section>
@@ -269,22 +261,22 @@
             <span class="timeline-loc mono">Remote from Colombia</span>
           </div>
           <div class="timeline-body">
-            <h3 class="timeline-role">Backend Software Engineer</h3>
+            <h3 class="timeline-role">Backend Software Engineer, Client Integrations</h3>
             <p class="timeline-org">
               Grip Shipping, Inc.
             </p>
             <ul class="timeline-bullets">
-              <li>Investigate bugs and review PRs with Claude Code and Cursor agents. A second set of agents tries to disprove the first set's findings, and I check what's left against the code before changing anything.</li>
-              <li>Keep a ticket log that the agents write through my /save and /ticket commands (26 entries, each fact marked confirmed, deduced or pending). Scheduled agents summarize new tickets every morning and scan error logs for failures.</li>
-              <li>Built the bulk upload that lets clients create advance shipment notices (ASNs) from Excel or CSV. Before, only Grip's internal team could create them in bulk. Later extended it to warehouse transfers and to updating ASNs that are still open.</li>
-              <li>Built one backend check for ASN rules, shared by the portal form, the bulk upload and the admin tool. Bad requests get a 400 with the reason and save nothing.</li>
-              <li>Found a stored procedure that closed transfer orders without checking the customer. PO numbers repeat across customers, so 55 of 269 open transfers were stuck. Fixed it in production.</li>
-              <li>Restored tracking on 260 of 262 orders whose labels were voided by mistake after they had shipped, using transactional SQL.</li>
-              <li>Fixed a bug, present since September 2025, that emptied a bundle's component SKUs whenever someone edited the bundle.</li>
-              <li>Traced unknown SKUs in a client's Shopify orders to a missing read_products permission. Without it, the product lookup failed without an error.</li>
-              <li>Wrote 12 automated tests (10 in Vitest, 2 in pytest) that reproduce a bug in the ASN edit form against the real code, before any fix was written.</li>
+              <li>Delivered the 8-ticket onboarding of a new customer brand, from requirements with operations and product to launch: Shopify order import, routing and batching rules, carrier tracking and a 157-order go-live backfill.</li>
+              <li>Work from approved specifications: turned an operations-approved refrigerant table (temperature and box size) into 6 rules checked against 68 test cases, and dropped six validation rules that had no business decision behind them.</li>
+              <li>Built one backend validation module for advance shipment notice (ASN) rules shared by 3 entry points, each error shown on its spreadsheet row. Released it QA first, verified with 7 test cases and non-saving production checks.</li>
+              <li>Built the Excel/CSV bulk upload that lets clients create ASNs, a task only Grip's internal team could do before.</li>
+              <li>Use Claude Code and Cursor agents under human oversight: a second set tries to disprove the first, and I verify the rest in code. A 9-agent audit of 5 PRs caught a bug and a merge-order risk before a launch.</li>
+              <li>Wrote the custom agent commands and scheduled agents I work with: they keep a ticket log with each fact marked confirmed, deduced or pending, summarize new tickets each morning through MCP and scan error logs.</li>
+              <li>Found that a stored procedure closed transfer orders without checking the customer, so one client's data affected another's: 55 of 269 open transfers were stuck. Fixed it in production.</li>
+              <li>Moved an admin-or-customer authorization check from the browser to the server session.</li>
+              <li>Restored tracking on 260 of 262 orders voided by mistake using transactional SQL, leaving 2 for review.</li>
             </ul>
-            <p class="timeline-stack mono">Python · FastAPI · JavaScript · Lit · Jinja2 · Tailwind CSS · REST APIs · SQL Server (T-SQL) · Redis · Databricks · Azure Functions · Azure Application Insights · GitHub Actions · pytest · Vitest · Claude Code · Cursor · MCP</p>
+            <p class="timeline-stack mono">Python · FastAPI · JavaScript · Lit · SQL Server (T-SQL) · Redis · Azure Databricks · Azure Functions · Application Insights · GitHub Actions · pytest · Vitest · Claude Code · Cursor · MCP</p>
           </div>
         </li>
 
@@ -293,7 +285,7 @@
             <span class="timeline-dot"></span>
           </div>
           <div class="timeline-meta">
-            <span class="mono">Feb 2024 / Dec 2024</span>
+            <span class="mono">Feb 2024 / Dec 2025</span>
             <span class="timeline-loc mono">Jacksonville, FL</span>
           </div>
           <div class="timeline-body">
@@ -340,8 +332,23 @@
             <span class="project-org">Grip Shipping</span>
             <span class="project-status"><span class="dot"></span> in production</span>
           </div>
-          <h3 class="project-title">Bulk ASN upload</h3>
-          <p class="project-desc">Creating ASNs in bulk was only possible with an internal tool used by Grip's inventory team. I built a version for clients on the ASN page, with row-level errors shown before anything saves. I added CSV because some clients export from Google Sheets. Later it handled transfers between two warehouses. It also handled updates to open ASNs, for clients who reserve a receiving slot first and add the details later.</p>
+          <h3 class="project-title">New customer onboarding</h3>
+          <p class="project-desc">A new brand started shipping through Grip. Its Shopify orders had to import, route, batch and get carrier tracking from day one. I delivered the 8 tickets from requirements to launch. Operations approved a refrigerant table by temperature and box size, and I turned it into 6 rules checked against 68 test cases. Before release, a 9-agent review of the 5 stacked pull requests caught a batch-naming bug and a merge-order risk. At go-live I backfilled 157 orders.</p>
+          <ul class="project-tags mono">
+            <li>Python</li>
+            <li>FastAPI</li>
+            <li>Shopify GraphQL API</li>
+            <li>SQL Server</li>
+          </ul>
+        </article>
+
+        <article class="project-card project-card-flat">
+          <div class="project-meta mono">
+            <span class="project-org">Grip Shipping</span>
+            <span class="project-status"><span class="dot"></span> in production</span>
+          </div>
+          <h3 class="project-title">Bulk ASN upload and validation</h3>
+          <p class="project-desc">Creating ASNs in bulk was only possible with an internal tool used by Grip's inventory team. I built a version for clients on the ASN page, with row-level errors shown before anything saves, and added CSV because some clients export from Google Sheets. The rules live in one backend module shared by the portal form, the bulk upload and the admin tool, so a row is checked the same way everywhere. It went to QA first and was verified with 7 test cases and non-saving production checks.</p>
           <ul class="project-tags mono">
             <li>Python</li>
             <li>FastAPI</li>
@@ -386,41 +393,17 @@
       <header class="section-head">
         <span class="section-num mono">04</span>
         <svg class="section-rule" aria-hidden="true" viewBox="0 0 600 1" preserveAspectRatio="none"><line x1="0" y1="0.5" x2="600" y2="0.5" stroke="currentColor" stroke-width="1" pathLength="1"/></svg>
-        <h2 class="section-label mono">Public projects</h2>
+        <h2 class="section-label mono">Projects</h2>
       </header>
 
       <div class="projects-grid">
-        <article class="project-card project-card-flat">
-          <div class="project-meta mono">
-            <span class="project-org">Personal · product prototype</span>
-            <span class="project-status"><span class="dot"></span> public</span>
-          </div>
-          <h3 class="project-title">PRism · PR coverage dashboard</h3>
-          <p class="project-desc">Personal product prototype that converts spreadsheet-based media coverage into normalized dashboards and presentation exports.</p>
-          <ul class="project-tags mono">
-            <li>Python</li>
-            <li>FastAPI</li>
-            <li>SQLAlchemy</li>
-            <li>PostgreSQL</li>
-            <li>Lit</li>
-            <li>pandas</li>
-            <li>ECharts</li>
-          </ul>
-          <div class="project-foot mono">
-            <a href="https://github.com/AlejandroDoradoP2002/pr-coverage-dashboard" target="_blank" rel="noopener noreferrer" class="project-link" data-magnetic>
-              <span>Source on GitHub</span>
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-link-arrow"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </a>
-          </div>
-        </article>
-
         <article class="project-card project-card-flat">
           <div class="project-meta mono">
             <span class="project-org">Personal · machine learning</span>
             <span class="project-status"><span class="dot"></span> public</span>
           </div>
           <h3 class="project-title">AI JobShield</h3>
-          <p class="project-desc">Interactive fraud-classification demo trained and evaluated on more than 17,000 labeled job listings.</p>
+          <p class="project-desc">Classifier that flags fraudulent job postings, trained and evaluated on more than 17,000 labeled listings, with a Streamlit app to check a posting.</p>
           <ul class="project-tags mono">
             <li>Python</li>
             <li>scikit-learn</li>
@@ -432,6 +415,44 @@
               <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-link-arrow"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
             </a>
           </div>
+        </article>
+
+        <article class="project-card project-card-flat">
+          <div class="project-meta mono">
+            <span class="project-org">University · team project</span>
+            <span class="project-status"><span class="dot"></span> public</span>
+          </div>
+          <h3 class="project-title">FinTrack</h3>
+          <p class="project-desc">Team project for Software Engineering (CEN 4010): a personal finance web app with a Django back end and a React front end.</p>
+          <ul class="project-tags mono">
+            <li>Python</li>
+            <li>Django</li>
+            <li>React</li>
+          </ul>
+          <div class="project-foot mono">
+            <a href="https://github.com/AlejandroDoradoP2002/fintrack" target="_blank" rel="noopener noreferrer" class="project-link" data-magnetic>
+              <span>Source on GitHub</span>
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-link-arrow"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="project-card project-card-flat">
+          <div class="project-meta mono">
+            <span class="project-org">Personal · product prototype</span>
+            <span class="project-status"><span class="dot"></span> private</span>
+          </div>
+          <h3 class="project-title">PRism · PR coverage dashboard</h3>
+          <p class="project-desc">Prototype that turns spreadsheet-based media coverage into normalized dashboards and presentation exports.</p>
+          <ul class="project-tags mono">
+            <li>Python</li>
+            <li>FastAPI</li>
+            <li>SQLAlchemy</li>
+            <li>PostgreSQL</li>
+            <li>Lit</li>
+            <li>pandas</li>
+            <li>ECharts</li>
+          </ul>
         </article>
       </div>
     </section>
@@ -448,33 +469,33 @@
 
       <div class="stack-groups">
         <div class="stack-group">
-          <h4 class="stack-cat mono">Used regularly in my current role</h4>
+          <h4 class="stack-cat mono">AI engineering</h4>
           <ul class="stack-tags">
-            <li>Python</li><li>FastAPI</li><li>JavaScript</li><li>Lit</li><li>Jinja2</li><li>Tailwind CSS</li><li>REST APIs</li><li>Git</li>
+            <li>Claude Code</li><li>Cursor</li><li>MCP</li><li>custom agent commands</li><li>multi-agent review</li><li>prompt engineering</li>
           </ul>
         </div>
         <div class="stack-group">
-          <h4 class="stack-cat mono">Production systems I work with</h4>
+          <h4 class="stack-cat mono">Backend and integration</h4>
           <ul class="stack-tags">
-            <li>SQL Server</li><li>T-SQL</li><li>stored procedures</li><li>Redis</li><li>DuckDB</li><li>Delta Lake</li><li>Databricks</li><li>Shopify GraphQL API</li><li>Azure Functions</li><li>Azure Application Insights</li><li>GitHub Actions</li>
+            <li>Python</li><li>FastAPI</li><li>REST APIs</li><li>Shopify GraphQL API</li><li>webhooks</li><li>pandas</li><li>JavaScript</li><li>Lit</li>
           </ul>
         </div>
         <div class="stack-group">
-          <h4 class="stack-cat mono">Testing</h4>
+          <h4 class="stack-cat mono">Data and cloud</h4>
           <ul class="stack-tags">
-            <li>pytest</li><li>Vitest</li>
+            <li>SQL Server</li><li>T-SQL</li><li>stored procedures</li><li>Redis</li><li>Azure Databricks</li><li>Azure Functions</li><li>App Service</li><li>Application Insights</li>
           </ul>
         </div>
         <div class="stack-group">
-          <h4 class="stack-cat mono">AI agents</h4>
+          <h4 class="stack-cat mono">Delivery</h4>
           <ul class="stack-tags">
-            <li>Claude Code (multi-agent reviews, custom commands, scheduled agents)</li><li>Cursor</li><li>MCP</li>
+            <li>Git</li><li>GitHub Actions</li><li>pytest</li><li>Vitest</li><li>code review</li><li>Agile</li>
           </ul>
         </div>
         <div class="stack-group">
-          <h4 class="stack-cat mono">Project experience</h4>
+          <h4 class="stack-cat mono">From projects</h4>
           <ul class="stack-tags">
-            <li>PostgreSQL</li><li>Django</li><li>React</li><li>MySQL</li><li>pandas</li><li>scikit-learn</li><li>Streamlit</li><li>Docker</li>
+            <li>Django</li><li>React</li><li>PostgreSQL</li><li>MySQL</li><li>scikit-learn</li><li>Streamlit</li>
           </ul>
         </div>
       </div>
@@ -492,17 +513,21 @@
 
       <ol class="edu-list">
         <li class="edu-item">
-          <div class="edu-meta mono">Jan 2021 / Dec 2025 · Jacksonville, FL</div>
-          <h3 class="edu-degree">B.S. Computer Science</h3>
+          <div class="edu-meta mono">Aug 2023 / Dec 2025 · Jacksonville, FL</div>
+          <h3 class="edu-degree">B.S. Computer Science, Magna Cum Laude</h3>
           <p class="edu-school">University of North Florida</p>
           <ul class="edu-tags mono">
             <li><span class="amber">GPA 3.66 / 4.0</span></li>
-            <li>President's List</li>
-            <li>Dean's List</li>
+            <li>Dean's List (5 terms)</li>
             <li>Latin American / Caribbean Scholarship (UNF)</li>
             <li>Upsilon Pi Epsilon (ΥΠΕ)</li>
           </ul>
-          <p class="edu-courses">Data Structures · Algorithms · Databases · Computer Networks · Systems Programming · Software Engineering. Degree completed entirely in English.</p>
+          <p class="edu-courses">Software Engineering · Introduction to Artificial Intelligence · Computer Security · Legal and Ethical Issues in Computing · Data Structures · Algorithms · Databases · Computer Networks. Degree completed entirely in English.</p>
+        </li>
+        <li class="edu-item">
+          <div class="edu-meta mono">Jan 2021 / Jul 2023 · Atlanta, GA</div>
+          <h3 class="edu-degree">Computer Science coursework, transferred to UNF</h3>
+          <p class="edu-school">Georgia State University</p>
         </li>
       </ol>
 
@@ -515,18 +540,28 @@
               <img src="assets/img/certs/edx.svg" alt="" width="30" height="30" loading="lazy" decoding="async">
             </span>
             <span class="cert-body">
-              <span class="cert-name">CS50: Introduction to Computer Science</span>
+              <span class="cert-name">CS50's Introduction to Programming with Python</span>
               <span class="cert-issuer mono">HarvardX · edX</span>
             </span>
           </li>
 
           <li class="cert">
             <span class="cert-logo cert-logo-light" aria-hidden="true">
-              <img src="assets/img/certs/meta.svg" alt="" width="30" height="30" loading="lazy" decoding="async">
+              <img src="assets/img/certs/edx.svg" alt="" width="30" height="30" loading="lazy" decoding="async">
             </span>
             <span class="cert-body">
-              <span class="cert-name">Back-End Developer Professional Certificate</span>
-              <span class="cert-issuer mono">Meta · Coursera</span>
+              <span class="cert-name">CS50's Web Programming with Python and JavaScript</span>
+              <span class="cert-issuer mono">HarvardX · edX</span>
+            </span>
+          </li>
+
+          <li class="cert">
+            <span class="cert-logo cert-logo-light" aria-hidden="true">
+              <img src="assets/img/certs/freecodecamp.svg" alt="" width="30" height="30" loading="lazy" decoding="async">
+            </span>
+            <span class="cert-body">
+              <span class="cert-name">Back End Development and APIs</span>
+              <span class="cert-issuer mono">freeCodeCamp</span>
             </span>
           </li>
 
